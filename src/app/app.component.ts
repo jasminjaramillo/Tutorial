@@ -1,19 +1,7 @@
 import { Component } from '@angular/core';
 import { Heroe } from './heroe';
+import { HeroeService } from './heroe.service';
 
-
-const HEROES: Heroe[] = [
-  { id: 11, nombre: 'Mr. Nice' },
-  { id: 12, nombre: 'Narco' },
-  { id: 13, nombre: 'Bombasto' },
-  { id: 14, nombre: 'Celeritas' },
-  { id: 15, nombre: 'Magneta' },
-  { id: 16, nombre: 'RubberMan' },
-  { id: 17, nombre: 'Dynama' },
-  { id: 18, nombre: 'Dr IQ' },
-  { id: 19, nombre: 'Magma' },
-  { id: 20, nombre: 'Tornado' }
-];
 
 @Component({
   selector: 'app-root',
@@ -85,13 +73,22 @@ template:  `
       margin-right: .8em;
       border-radius: 4px 0 0 4px;
     }
-  `]
+  `],
+   providers: [HeroeService]
 })
 
 export class AppComponent {
   titulo = 'LISTA DE HEROES';
   heroes = HEROES;
   selectedHeroe: Heroe;
+
+  constructor(private heroeService: HeroeService) { }
+  getHeroes(): void {
+    this.heroeService.getHeroes().then(heroes => this.heroes = heroes);
+  }
+  ngOnInit(): void {
+    this.getHeroes();
+  }
   
  onSelect(heroe: Heroe): void {
     this.selectedHeroe = heroe;
